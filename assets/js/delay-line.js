@@ -226,18 +226,7 @@
     var top = cy - TH / 2, bot = cy + TH / 2;
     var pts = (x - HW) + ',' + top + ' ' + (x + HW) + ',' + top + ' ' + x + ',' + bot;   // buffer pointing down
     var g = el('g', { 'class': 'dl-stg' }, svg);
-    if (p.photo) {
-      var cid = 'dl-clip-' + o.key;
-      var cp = el('clipPath', { id: cid }, svg.querySelector('defs'));
-      el('polygon', { points: pts }, cp);
-      var img = el('image', { x: x - HW, y: top, width: 2 * HW, height: TH, preserveAspectRatio: 'xMidYMin slice',
-                              'clip-path': 'url(#' + cid + ')', filter: 'url(#dl-gray)', 'class': 'dl-photo' }, g);
-      img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', p.photo);
-      img.setAttribute('href', p.photo);
-    } else {
-      el('text', { x: x, y: cy - 2, 'class': 'dl-t dl-t--ini', 'text-anchor': 'middle' }, g, initials(p.name));
-    }
-    el('polygon', { points: pts, 'class': 'dl-tri' }, g);
+    el('polygon', { points: pts, 'class': 'dl-tri' }, g);    // plain buffer symbol
     // lit outline (clipped by the pulse front)
     el('polygon', { points: pts, 'class': 'dl-tri' }, wiresLit);
 
@@ -260,9 +249,19 @@
     b.style.height = (G.R - 8) + 'px';
     b.setAttribute('aria-expanded', 'false');
     b.setAttribute('aria-label', 'Details: ' + p.name);
-    h('span', 'dl-row__tag', o.tag, b);
-    h('span', 'dl-row__name', p.name, b);
-    h('span', 'dl-row__org', p.institution || '', b);
+    // square portrait beside the buffer (initials when there is no photo)
+    var ph = h('span', 'dl-row__ph' + (p.photo ? '' : ' dl-row__ph--none'), null, b);
+    if (p.photo) {
+      var im = h('img', null, null, ph);
+      im.src = p.photo; im.alt = ''; im.loading = 'lazy'; im.decoding = 'async';
+      im.onerror = function () { ph.textContent = initials(p.name); ph.classList.add('dl-row__ph--none'); };
+    } else {
+      ph.textContent = initials(p.name);
+    }
+    var tx = h('span', 'dl-row__txt', null, b);
+    h('span', 'dl-row__tag', o.tag, tx);
+    h('span', 'dl-row__name', p.name, tx);
+    h('span', 'dl-row__org', p.institution || '', tx);
     if (o.anchor) { var a = h('span', 'dl-anchor'); a.id = o.anchor; b.appendChild(a); }
     var st = { o: o, g: g, btn: b, lit: null };
     b.addEventListener('click', function () { toggleCard(st); });
