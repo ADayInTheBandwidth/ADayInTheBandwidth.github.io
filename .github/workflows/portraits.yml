@@ -1,0 +1,41 @@
+name: Fetch genealogy portraits
+
+# Manual only: Actions > "Fetch genealogy portraits" > Run workflow
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Refetch everything (ignore the cache)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch portraits from Wikidata / Wikimedia Commons
+        run: python scripts/fetch_portraits.py ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit new images and metadata
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/images/genealogy _data/genealogy_photos.json
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update genealogy portraits (Wikimedia Commons)"
+            git push
+          fi

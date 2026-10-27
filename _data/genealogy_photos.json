@@ -1,0 +1,388 @@
+{
+  "generated": "2026-10-27",
+  "source": "Wikidata P18 + Wikimedia Commons (scripts/fetch_portraits.py)",
+  "photos": {
+    "D1": {
+      "id": "D1",
+      "name": "Paul R. Gray",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1942, \"keywords\": [\"engineer\", \"Berkeley\", \"Arizona\"]}, \"name\": \"Paul R. Gray\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1942",
+        "keywords: engineer, Berkeley, Arizona",
+        "name match",
+        "no P18 image on Wikidata"
+      ],
+      "candidate": "Q20203557",
+      "runnerUp": null,
+      "status": "missing",
+      "wikidataId": "Q20203557"
+    },
+    "D2": {
+      "id": "D2",
+      "name": "Douglas J. Hamilton",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"keywords\": [\"engineer\", \"Arizona\", \"Stanford\"]}, \"name\": \"Douglas J. Hamilton\", \"wikidataId\": null}",
+      "confidence": "none",
+      "reasons": [
+        "no search results"
+      ],
+      "candidate": null,
+      "runnerUp": null,
+      "status": "missing"
+    },
+    "D3": {
+      "id": "D3",
+      "name": "James F. Gibbons",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1931, \"keywords\": [\"engineer\", \"Stanford\"]}, \"name\": \"James F. Gibbons\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1931",
+        "keywords: engineer, Stanford",
+        "name match",
+        "no P18 image on Wikidata"
+      ],
+      "candidate": "Q5758232",
+      "runnerUp": null,
+      "status": "missing",
+      "wikidataId": "Q5758232"
+    },
+    "D4": {
+      "id": "D4",
+      "name": "John G. Linvill",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1919, \"keywords\": [\"engineer\", \"Stanford\", \"Optacon\"]}, \"name\": \"John G. Linvill\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1919",
+        "keywords: engineer, Stanford",
+        "name match"
+      ],
+      "candidate": "Q6234538",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q6234538",
+      "path": "/assets/images/genealogy/D4.jpg",
+      "commonsFile": "File:John G. Linvill (1974).jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:John_G._Linvill_(1974).jpg",
+      "author": "Gotanero",
+      "authorUrl": "https://commons.wikimedia.org/w/index.php?title=User:Gotanero&action=edit&redlink=1",
+      "credit": "This image has been extracted from another file",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    "D5": {
+      "id": "D5",
+      "name": "Ernst A. Guillemin",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1898, \"keywords\": [\"engineer\", \"Massachusetts Institute of Technology\", \"MIT\"]}, \"name\": \"Ernst A. Guillemin\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1898",
+        "keywords: engineer, Massachusetts Institute of Technology",
+        "name match",
+        "no P18 image on Wikidata"
+      ],
+      "candidate": "Q5395009",
+      "runnerUp": null,
+      "status": "missing",
+      "wikidataId": "Q5395009"
+    },
+    "D6": {
+      "id": "D6",
+      "name": "Arnold Sommerfeld",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1868, \"keywords\": [\"physicist\", \"Munich\"]}, \"name\": \"Arnold Sommerfeld\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1868",
+        "keywords: physicist, Munich",
+        "name match"
+      ],
+      "candidate": "Q77078",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q77078",
+      "path": "/assets/images/genealogy/D6.jpg",
+      "commonsFile": "File:Sommerfeld1897.gif",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Sommerfeld1897.gif",
+      "author": "Unknown authorUnknown author",
+      "authorUrl": null,
+      "credit": "here",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D7": {
+      "id": "D7",
+      "name": "Ferdinand von Lindemann",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1852, \"keywords\": [\"mathematician\"]}, \"name\": \"Ferdinand von Lindemann\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1852",
+        "keywords: mathematician",
+        "name match"
+      ],
+      "candidate": "Q77203",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q77203",
+      "path": "/assets/images/genealogy/D7.jpg",
+      "commonsFile": "File:Carl Louis Ferdinand von Lindemann.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Carl_Louis_Ferdinand_von_Lindemann.jpg",
+      "author": "Unknown authorUnknown author",
+      "authorUrl": null,
+      "credit": "http://www.math.uha.fr/Pi/trans.html",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D8": {
+      "id": "D8",
+      "name": "Felix Klein",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1849, \"keywords\": [\"mathematician\", \"Göttingen\"]}, \"name\": \"Felix Klein\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1849",
+        "keywords: mathematician, Göttingen",
+        "name match"
+      ],
+      "candidate": "Q76641",
+      "runnerUp": "Q120614781",
+      "status": "matched",
+      "wikidataId": "Q76641",
+      "path": "/assets/images/genealogy/D8.jpg",
+      "commonsFile": "File:1912 circa Max Liebermann oil on canvas portrait Felix Klein, Kunstsammlung der Universität Göttingen.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:1912_circa_Max_Liebermann_oil_on_canvas_portrait_Felix_Klein,_Kunstsammlung_der_Universit%C3%A4t_G%C3%B6ttingen.jpg",
+      "author": "Max Liebermann",
+      "authorUrl": "https://en.wikipedia.org/wiki/en:Max_Liebermann",
+      "credit": "Gert-Dieter Ulferts (1987): Porträt Felix Klein  in der Kunstsammlung der Universität Göttingen,  Sammlung Campusweites Universitätskulturgut (CUK), Inventarnummer: GG Liebermann 1, Öl auf Leinwand in den Maßen Tiefe: 2 cm (ca.) x Breite: 93 cm x Höhe: 113 cm; https://sammlungen.uni-goettingen.de/objekt/record_kuniweb_590543/",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "D9": {
+      "id": "D9",
+      "name": "Julius Plücker",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1801, \"keywords\": [\"mathematician\", \"physicist\", \"Bonn\"]}, \"name\": \"Julius Plücker\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1801",
+        "keywords: mathematician, physicist, Bonn",
+        "name match"
+      ],
+      "candidate": "Q57561",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q57561",
+      "path": "/assets/images/genealogy/D9.jpg",
+      "commonsFile": "File:Julius Plücker 1856.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Julius_Pl%C3%BCcker_1856.jpg",
+      "author": "Rudolph Hoffmann",
+      "authorUrl": "https://www.wikidata.org/wiki/Q18508636",
+      "credit": "https://library.si.edu/image-gallery/74030",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D10": {
+      "id": "D10",
+      "name": "Christian Ludwig Gerling",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1788, \"keywords\": [\"astronomer\", \"mathematician\", \"Marburg\"]}, \"name\": \"Christian Ludwig Gerling\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1788",
+        "keywords: astronomer, mathematician, Marburg",
+        "name match"
+      ],
+      "candidate": "Q72995",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q72995",
+      "path": "/assets/images/genealogy/D10.jpg",
+      "commonsFile": "File:Christian Ludwig Gerling (1788-1864) Federzeichnung.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Christian_Ludwig_Gerling_(1788-1864)_Federzeichnung.jpg",
+      "author": "Ferdinand Justi",
+      "authorUrl": "https://en.wikipedia.org/wiki/en:Ferdinand_Justi",
+      "credit": "Bildarchiv Foto Marburg Aufnahme-Nr. 222.495",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D11": {
+      "id": "D11",
+      "name": "Carl Friedrich Gauss",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1777, \"keywords\": [\"mathematician\", \"Göttingen\"]}, \"name\": \"Carl Friedrich Gauss\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1777",
+        "keywords: mathematician, Göttingen",
+        "name match"
+      ],
+      "candidate": "Q6722",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q6722",
+      "path": "/assets/images/genealogy/D11.jpg",
+      "commonsFile": "File:Carl Friedrich Gauss.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss.jpg",
+      "author": "Gottlieb Biermann / After Christian Albrecht Jensen",
+      "authorUrl": "https://www.wikidata.org/wiki/Q19284307",
+      "credit": "Gauß-Gesellschaft Göttingen e.V. (Foto: A. Wittmann).",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D12": {
+      "id": "D12",
+      "name": "Johann Friedrich Pfaff",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1765, \"keywords\": [\"mathematician\", \"Helmstedt\"]}, \"name\": \"Johann Friedrich Pfaff\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1765",
+        "keywords: mathematician, Helmstedt",
+        "name match"
+      ],
+      "candidate": "Q77361",
+      "runnerUp": "Q137035486",
+      "status": "matched",
+      "wikidataId": "Q77361",
+      "path": "/assets/images/genealogy/D12.jpg",
+      "commonsFile": "File:Johann Friedrich Pfaff.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Johann_Friedrich_Pfaff.jpg",
+      "author": "unknown",
+      "authorUrl": null,
+      "credit": "https://disk.mathematik.uni-halle.de/history/pfaff/",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D13": {
+      "id": "D13",
+      "name": "Abraham Gotthelf Kästner",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1719, \"keywords\": [\"mathematician\", \"Göttingen\"]}, \"name\": \"Abraham Gotthelf Kästner\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1719",
+        "keywords: mathematician, Göttingen",
+        "name match"
+      ],
+      "candidate": "Q61813",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q61813",
+      "path": "/assets/images/genealogy/D13.jpg",
+      "commonsFile": "File:Abraham Gotthelf Kästner.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Abraham_Gotthelf_K%C3%A4stner.jpg",
+      "author": "Unknown author",
+      "authorUrl": null,
+      "credit": "From http://www.sil.si.edu/digitalcollections/hst/scientific-identity/fullsize/SIL14-K001-01a.jpg http://portrait.kaar.at/Stahlstiche%202/images/abraham_gotthelf_kaestner.jpg",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D14": {
+      "id": "D14",
+      "name": "Christian August Hausen",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1693, \"keywords\": [\"mathematician\", \"physicist\", \"Leipzig\"]}, \"name\": \"Christian August Hausen\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1693",
+        "keywords: mathematician, physicist, Leipzig",
+        "name match"
+      ],
+      "candidate": "Q91657",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q91657",
+      "path": "/assets/images/genealogy/D14.jpg",
+      "commonsFile": "File:Christian-August-Hausen-d J.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Christian-August-Hausen-d_J.jpg",
+      "author": "Elias Gottlob Hausmann, (1695-1774)Johann Martin Bernigeroth (1713-1767)",
+      "authorUrl": null,
+      "credit": "Deutsche Acta Eruditorum. 1737",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D15": {
+      "id": "D15",
+      "name": "Johann Christoph Wichmannshausen",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1663, \"keywords\": [\"Wittenberg\", \"philologist\", \"orientalist\", \"theologian\"]}, \"name\": \"Johann Christoph Wichmannshausen\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1663",
+        "keywords: Wittenberg, philologist, orientalist",
+        "name match"
+      ],
+      "candidate": "Q95678",
+      "runnerUp": "Q128801452",
+      "status": "matched",
+      "wikidataId": "Q95678",
+      "path": "/assets/images/genealogy/D15.jpg",
+      "commonsFile": "File:Johann-Christoph-Wichmannsh.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Johann-Christoph-Wichmannsh.jpg",
+      "author": "Unknown authorUnknown author",
+      "authorUrl": null,
+      "credit": "aus der Kupferstichsammlung der Bibo des evangelischen Predigerseminars in Wittenberg",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D16": {
+      "id": "D16",
+      "name": "Otto Mencke",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1644, \"keywords\": [\"philosopher\", \"Leipzig\", \"Acta Eruditorum\"]}, \"name\": \"Otto Mencke\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1644",
+        "keywords: philosopher, Leipzig",
+        "name match"
+      ],
+      "candidate": "Q64592",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q64592",
+      "path": "/assets/images/genealogy/D16.jpg",
+      "commonsFile": "File:Mencke, Otto.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Mencke,_Otto.jpg",
+      "author": "Martin Bernigeroth",
+      "authorUrl": "https://en.wikipedia.org/wiki/en:Martin_Bernigeroth",
+      "credit": "http://diglib.hab.de/?portrait=a-13913",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D17": {
+      "id": "D17",
+      "name": "Jakob Thomasius",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1622, \"keywords\": [\"philosopher\", \"Leipzig\"]}, \"name\": \"Jakob Thomasius\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1622",
+        "keywords: philosopher, Leipzig",
+        "name match"
+      ],
+      "candidate": "Q67323",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q67323",
+      "path": "/assets/images/genealogy/D17.jpg",
+      "commonsFile": "File:Jacob Thomasius; Haid cropped.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Jacob_Thomasius;_Haid_cropped.jpg",
+      "author": "Johann Jakob Haid",
+      "authorUrl": "https://en.wikipedia.org/wiki/en:Johann_Jacob_Haid",
+      "credit": "Universitätsbibliothek Heidelberg\n\n\n\n\n\n\nThis  is a retouched picture, which means that it has been digitally altered from its original version. Modifications: cropped, stamped artefacts, colour. The original can be viewed here: Jacob Thomasius; Haid.jpg: . Modifications made by Hic et nunc.",
+      "license": "Public domain",
+      "licenseUrl": null
+    },
+    "D18": {
+      "id": "D18",
+      "name": "Friedrich Leibniz",
+      "signature": "{\"commonsFile\": null, \"hints\": {\"born\": 1597, \"keywords\": [\"jurist\", \"philosopher\", \"Leipzig\"]}, \"name\": \"Friedrich Leibniz\", \"wikidataId\": null}",
+      "confidence": "high",
+      "reasons": [
+        "born 1597",
+        "keywords: jurist, philosopher, Leipzig",
+        "name match"
+      ],
+      "candidate": "Q75925",
+      "runnerUp": null,
+      "status": "matched",
+      "wikidataId": "Q75925",
+      "path": "/assets/images/genealogy/D18.jpg",
+      "commonsFile": "File:Friedrich Leibnütz.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Friedrich_Leibn%C3%BCtz.jpg",
+      "author": "selbst gescannt, Maler unbekannt",
+      "authorUrl": null,
+      "credit": "Eigener Scan aus dem Buch Gottfreid Wilhelm Leibniz von Reinhard Finser, Rororo",
+      "license": "Public domain",
+      "licenseUrl": null
+    }
+  }
+}

@@ -8,7 +8,7 @@
 {% assign geno_files = site.static_files | where_exp: "f", "f.path contains '/images/Academic_Genealogy/'" %}
 
 {% capture geno_json %}[{% for p in geno_people %}{% assign geno_parts = p.name | split: " " %}{% assign geno_slug = geno_parts.first | append: "_" | append: geno_parts.last %}{% assign geno_photo = p.photo %}{% if geno_photo == nil or geno_photo == "" %}{% for f in geno_files %}{% if f.basename == geno_slug %}{% assign geno_photo = f.path %}{% endif %}{% endfor %}{% endif %}{% if geno_photo and geno_photo != "" %}{% unless geno_photo contains "://" %}{% assign geno_photo = geno_photo | relative_url %}{% endunless %}{% endif %}
-  {"name": {{ p.name | jsonify }}, "institution": {{ p.institution | jsonify }}, "role": {{ p.role | jsonify }}, "direction": {{ p.direction | jsonify }}, "degree_year": {{ p.degree_year | jsonify }}, "phd_institution": {{ p.phd_institution | jsonify }}, "link": {{ p.link | jsonify }}, "photo": {% if geno_photo and geno_photo != "" %}{{ geno_photo | jsonify }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}
+  {"name": {{ p.name | jsonify }}, "institution": {{ p.institution | jsonify }}, "role": {{ p.role | jsonify }}, "direction": {{ p.direction | jsonify }}, "degree_year": {{ p.degree_year | jsonify }}, "phd_institution": {{ p.phd_institution | jsonify }}, "link": {{ p.link | jsonify }}, "deeper": {% if p.deeper %}{{ p.deeper | relative_url | jsonify }}{% else %}null{% endif %}, "photo": {% if geno_photo and geno_photo != "" %}{{ geno_photo | jsonify }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}
 ]{% endcapture %}
 
 <section class="geno" id="academic-genealogy" aria-labelledby="geno-heading" data-rev-date="{{ site.time | date: "%Y-%m-%d" }}">
@@ -26,7 +26,7 @@
     <li class="geno-list__item">
       <strong>X{{ forloop.index }}: {% if p.link and p.link != "" %}<a href="{{ p.link }}" target="_blank" rel="noopener">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</strong>
       — {{ p.institution }}; {{ p.role }}{% if p.degree_year and p.degree_year != "" %}; {{ p.degree_year }}{% endif %}{% if p.phd_institution and p.phd_institution != "" %}; Ph.D., {{ p.phd_institution }}{% endif %}.
-      {% if p.direction == "up" %}Advisor of {{ geno_prev.name }}.{% elsif p.direction == "apex" %}Advisor of {{ geno_prev.name }}; both lineages meet here.{% elsif p.direction == "down" %}Student of {{ geno_prev.name }}.{% endif %}
+      {% if p.direction == "up" %}Advisor of {{ geno_prev.name }}.{% elsif p.direction == "apex" %}Advisor of {{ geno_prev.name }}; both lineages meet here.{% if p.deeper %} <a href="{{ p.deeper | relative_url }}">Deeper genealogy: his lineage back to 1622</a>.{% endif %}{% elsif p.direction == "down" %}Student of {{ geno_prev.name }}.{% endif %}
     </li>
     {% endunless %}{% endfor %}
     <li class="geno-list__item">The output of X9 feeds back to X1, closing a loop of nine inverting stages, so the ring oscillates.</li>

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "D1", "name": "Paul R. Gray", "institution": "University of Arizona",
+    "degreeYear": "Ph.D. 1969", "year": 1969,
+    "note": "Common ancestor (link back to X5)",
+    "mgpUrl": null,
+    "hints": { "born": 1942, "keywords": ["engineer", "Berkeley", "Arizona"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D2", "name": "Douglas J. Hamilton", "institution": "Stanford",
+    "degreeYear": "Ph.D. late 1950s", "year": 1958, "yearApprox": true,
+    "note": "Later EE professor, Univ. of Arizona; avalanche-diode work co-authored with Gibbons and Shockley",
+    "mgpUrl": null,
+    "hints": { "keywords": ["engineer", "Arizona", "Stanford"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D3", "name": "James F. Gibbons", "institution": "Stanford",
+    "degreeYear": "Ph.D. 1956", "year": 1956,
+    "note": "Co-founded Stanford's semiconductor fab lab with Shockley; later Dean of Engineering",
+    "mgpUrl": null,
+    "hints": { "born": 1931, "keywords": ["engineer", "Stanford"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D4", "name": "John G. Linvill", "institution": "MIT",
+    "degreeYear": "Sc.D. 1949", "year": 1949,
+    "note": "Inventor of the Optacon; built Stanford's solid-state program",
+    "mgpUrl": "https://www.mathgenealogy.org/id.php?id=230261",
+    "hints": { "born": 1919, "keywords": ["engineer", "Stanford", "Optacon"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D5", "name": "Ernst A. Guillemin", "institution": "LMU Munich",
+    "degreeYear": "D.Sc. 1926", "year": 1926,
+    "note": "MIT network/circuit theory pioneer",
+    "mgpUrl": "https://www.mathgenealogy.org/id.php?id=63061",
+    "hints": { "born": 1898, "keywords": ["engineer", "Massachusetts Institute of Technology", "MIT"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D6", "name": "Arnold Sommerfeld", "institution": "Königsberg",
+    "degreeYear": "Ph.D. 1891", "year": 1891,
+    "note": "Advisor of Heisenberg, Pauli, Debye, Bethe",
+    "mgpUrl": null,
+    "hints": { "born": 1868, "keywords": ["physicist", "Munich"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D7", "name": "Ferdinand von Lindemann", "institution": "Erlangen",
+    "degreeYear": "Ph.D. 1873", "year": 1873,
+    "note": "Proved π is transcendental (1882)",
+    "mgpUrl": null,
+    "hints": { "born": 1852, "keywords": ["mathematician"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D8", "name": "Felix Klein", "institution": "Bonn",
+    "degreeYear": "Ph.D. 1868", "year": 1868,
+    "note": "Erlangen program, Klein bottle",
+    "mgpUrl": null,
+    "hints": { "born": 1849, "keywords": ["mathematician", "Göttingen"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D9", "name": "Julius Plücker", "institution": "Marburg",
+    "degreeYear": "Ph.D. 1823", "year": 1823,
+    "note": "Line geometry; early cathode-ray research",
+    "mgpUrl": null,
+    "hints": { "born": 1801, "keywords": ["mathematician", "physicist", "Bonn"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D10", "name": "Christian Ludwig Gerling", "institution": "Göttingen",
+    "degreeYear": "Ph.D. 1812", "year": 1812,
+    "note": "Astronomer/geodesist, Gauss's student",
+    "mgpUrl": null,
+    "hints": { "born": 1788, "keywords": ["astronomer", "mathematician", "Marburg"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D11", "name": "Carl Friedrich Gauss", "institution": "Helmstedt",
+    "degreeYear": "Ph.D. 1799", "year": 1799,
+    "note": "Thesis: fundamental theorem of algebra",
+    "mgpUrl": null,
+    "hints": { "born": 1777, "keywords": ["mathematician", "Göttingen"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D12", "name": "Johann Friedrich Pfaff", "institution": "Göttingen",
+    "degreeYear": "1786", "year": 1786,
+    "note": "Pfaffian forms (formal advisor of Gauss)",
+    "mgpUrl": null,
+    "hints": { "born": 1765, "keywords": ["mathematician", "Helmstedt"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D13", "name": "Abraham Gotthelf Kästner", "institution": "Leipzig",
+    "degreeYear": "1739", "year": 1739,
+    "note": "",
+    "mgpUrl": null,
+    "hints": { "born": 1719, "keywords": ["mathematician", "Göttingen"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D14", "name": "Christian August Hausen", "institution": "Wittenberg",
+    "degreeYear": "1713", "year": 1713,
+    "note": "",
+    "mgpUrl": null,
+    "hints": { "born": 1693, "keywords": ["mathematician", "physicist", "Leipzig"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D15", "name": "Johann Christoph Wichmannshausen", "institution": "Leipzig",
+    "degreeYear": "1685", "year": 1685,
+    "note": "",
+    "mgpUrl": null,
+    "hints": { "born": 1663, "keywords": ["Wittenberg", "philologist", "orientalist", "theologian"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D16", "name": "Otto Mencke", "institution": "Leipzig",
+    "degreeYear": "1665", "year": 1665,
+    "note": "Founder of the journal Acta Eruditorum",
+    "mgpUrl": null,
+    "hints": { "born": 1644, "keywords": ["philosopher", "Leipzig", "Acta Eruditorum"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D17", "name": "Jakob Thomasius", "institution": "Leipzig",
+    "degreeYear": "1643", "year": 1643,
+    "note": "Also a teacher of Gottfried Wilhelm Leibniz",
+    "mgpUrl": "https://www.mathgenealogy.org/id.php?id=137705",
+    "hints": { "born": 1622, "keywords": ["philosopher", "Leipzig"] },
+    "wikidataId": null, "commonsFile": null
+  },
+  {
+    "id": "D18", "name": "Friedrich Leibniz", "institution": "Leipzig",
+    "degreeYear": "Magister 1622", "year": 1622,
+    "note": "Father of G. W. Leibniz; advisor unknown (end of recorded line)",
+    "mgpUrl": "https://www.mathgenealogy.org/id.php?id=143630",
+    "hints": { "born": 1597, "keywords": ["jurist", "philosopher", "Leipzig"] },
+    "wikidataId": null, "commonsFile": null
+  }
+]

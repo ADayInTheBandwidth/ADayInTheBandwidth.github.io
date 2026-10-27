@@ -1,0 +1,99 @@
+{% comment %}
+  Deeper genealogy as a delay line of buffer stages (vertical).
+  From the top: X1 (me) splits into the M.S. and Ph.D. branches, which merge at
+  Paul R. Gray; a single chain then runs down to Friedrich Leibniz (1622).
+
+  Data
+    _data/genealogy.yml        me + the two branches (same file as the ring oscillator)
+    _data/delay_line.json      the chain above Paul R. Gray (D1..D18)
+    _data/genealogy_photos.json  Commons portraits + credits (scripts/fetch_portraits.py)
+  Photos: a hand-picked photo in images/Academic_Genealogy/First_Last.* wins;
+  otherwise the Commons portrait (with attribution) is used; otherwise initials.
+  Style: assets/css/delay-line.css   Script: assets/js/delay-line.js
+{% endcomment %}
+{% include base_path %}
+{% assign dl_ring = site.data.genealogy %}
+{% assign dl_chain = site.data.delay_line %}
+{% assign dl_commons = site.data.genealogy_photos.photos %}
+{% assign dl_files = site.static_files | where_exp: "f", "f.path contains '/images/Academic_Genealogy/'" %}
+{% assign dl_me = dl_ring | first %}
+{% assign dl_ms = dl_ring | where: "direction", "up" %}
+{% assign dl_phd = dl_ring | where: "direction", "down" | reverse %}
+
+{% comment %} hand-picked photo lookup: First_Last {% endcomment %}
+{% capture dl_json %}{
+  "ringUrl": {{ "/genealogy/" | relative_url | jsonify }},
+  "base": {{ site.baseurl | default: "" | jsonify }},
+  {% for group in (1..3) %}{% if group == 1 %}{% assign dl_list = dl_ms %}"ms": [{% elsif group == 2 %}{% assign dl_list = dl_phd %}"phd": [{% else %}{% assign dl_list = dl_ring | slice: 0, 1 %}"me": [{% endif %}
+    {% for p in dl_list %}{% assign dl_parts = p.name | split: " " %}{% assign dl_slug = dl_parts.first | append: "_" | append: dl_parts.last %}{% assign dl_photo = nil %}{% for f in dl_files %}{% if f.basename == dl_slug %}{% assign dl_photo = f.path | relative_url %}{% endif %}{% endfor %}
+    {"name": {{ p.name | jsonify }}, "institution": {{ p.institution | jsonify }}, "role": {{ p.role | jsonify }}, "link": {{ p.link | jsonify }}, "photo": {{ dl_photo | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}
+  ],{% endfor %}
+  "chain": [
+    {% for p in dl_chain %}{% assign dl_parts = p.name | split: " " %}{% assign dl_slug = dl_parts.first | append: "_" | append: dl_parts.last %}{% assign dl_photo = nil %}{% assign dl_credit = nil %}{% for f in dl_files %}{% if f.basename == dl_slug %}{% assign dl_photo = f.path | relative_url %}{% endif %}{% endfor %}{% assign dl_c = dl_commons[p.id] %}{% if dl_photo == nil and dl_c and dl_c.path %}{% assign dl_photo = dl_c.path | relative_url %}{% assign dl_credit = dl_c %}{% endif %}
+    {"id": {{ p.id | jsonify }}, "name": {{ p.name | jsonify }}, "institution": {{ p.institution | jsonify }}, "degreeYear": {{ p.degreeYear | jsonify }}, "year": {{ p.year | jsonify }}, "yearApprox": {{ p.yearApprox | default: false | jsonify }}, "note": {{ p.note | jsonify }}, "mgpUrl": {{ p.mgpUrl | jsonify }}, "photo": {{ dl_photo | jsonify }}, "credit": {% if dl_credit %}{"author": {{ dl_credit.author | jsonify }}, "authorUrl": {{ dl_credit.authorUrl | jsonify }}, "license": {{ dl_credit.license | jsonify }}, "licenseUrl": {{ dl_credit.licenseUrl | jsonify }}, "sourcePage": {{ dl_credit.sourcePage | jsonify }}}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}
+  ]
+}{% endcapture %}
+
+<link rel="stylesheet" href="{{ '/assets/css/delay-line.css' | relative_url }}">
+
+<section class="dl" id="delay-line" aria-labelledby="dl-heading">
+  <h2 id="dl-heading" class="dl__heading">A delay line back to 1622</h2>
+  <p class="dl__intro">
+    Two branches leave me (X1): my M.S. lineage and my Ph.D. lineage. They merge at
+    Paul R. Gray, stage X5 of the <a href="{{ '/genealogy/' | relative_url }}">ring oscillator</a>.
+    Below him, one buffer stage per ancestor carries the signal back in time to
+    Friedrich Leibniz in 1622. Scroll down to send the pulse back in time.
+  </p>
+
+  {% comment %} Semantic version: visible without JS, screen-reader only otherwise. {% endcomment %}
+  <div class="dl-list">
+    <h3>From me to Paul R. Gray</h3>
+    <p>M.S. branch:</p>
+    <ol>
+      <li>{{ dl_me.name }}, {{ dl_me.institution }}</li>
+      {% for p in dl_ms %}<li>{% if p.link %}<a href="{{ p.link }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}, {{ p.institution }}</li>{% endfor %}
+    </ol>
+    <p>Ph.D. branch:</p>
+    <ol>
+      <li>{{ dl_me.name }}, {{ dl_me.institution }}</li>
+      {% for p in dl_phd %}<li>{% if p.link %}<a href="{{ p.link }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}, {{ p.institution }}</li>{% endfor %}
+    </ol>
+    <h3>From Paul R. Gray back to 1622</h3>
+    <ol>
+      {% for p in dl_chain %}<li><strong>{{ p.id }}: {{ p.name }}</strong> — {{ p.institution }}, {{ p.degreeYear }}{% if p.note and p.note != "" %}. {{ p.note }}{% endif %}{% if p.mgpUrl %} (<a href="{{ p.mgpUrl }}">Mathematics Genealogy Project</a>){% endif %}{% assign dl_c = dl_commons[p.id] %}{% if dl_c and dl_c.path %}. Portrait: {{ dl_c.author }}, {{ dl_c.license }}, via <a href="{{ dl_c.sourcePage }}">Wikimedia Commons</a>{% endif %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <div class="dl-stage" aria-label="Delay-line diagram (details below each stage)">
+    <svg class="dl-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"></svg>
+    <div class="dl-rows"></div>
+    <div class="dl-card" role="dialog" aria-modal="false" aria-labelledby="dl-card-name" hidden>
+      <button type="button" class="dl-card__close" aria-label="Close">×</button>
+      <div class="dl-card__body"></div>
+    </div>
+  </div>
+
+  <p class="dl-foot">
+    <small>
+      Note: relationships before roughly 1800 are formal degree/praeses relationships
+      recorded by the Mathematics Genealogy Project rather than modern Ph.D. supervision,
+      and some early links lack documented theses. Portraits from Wikimedia Commons are
+      credited on each card.
+    </small>
+  </p>
+
+  <div class="dl-scope" aria-hidden="true" hidden>
+    <div class="dl-scope__bar"><span class="dl-scope__ch">CH2</span><span class="dl-scope__probe">probe X1</span></div>
+    <div class="dl-scope__main">
+      <span class="dl-scope__year">—</span>
+      <span class="dl-scope__name"></span>
+    </div>
+    <svg class="dl-scope__svg" viewBox="0 0 220 56" preserveAspectRatio="none" focusable="false"></svg>
+    <div class="dl-scope__foot"><span>year/div: 50</span><span>stage →</span></div>
+  </div>
+
+  <script type="application/json" class="dl-data">{{ dl_json | strip }}</script>
+</section>
+
+<script src="{{ '/assets/js/delay-line.js' | relative_url }}" defer></script>

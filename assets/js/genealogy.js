@@ -33,7 +33,7 @@
   var q = function (s) { return root.querySelector(s); };
   var track = q('.geno-track'), pane = q('.geno-pane'), world = q('.geno-world'),
       svg = q('.geno-svg'), cardsBox = q('.geno-cards'), scopeSvg = q('.geno-scope__svg'),
-      probeLbl = q('.geno-scope__probe'), timeLbl = q('.geno-scope__time'),
+      probeLbl = q('.geno-scope__probe'), timeLbl = q('.geno-scope__time'), scopeEl = q('.geno-scope'),
       caption = q('.geno-caption'), replayBtn = q('.geno-replay'), heading = q('.geno__heading');
 
   var NUM = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven'];
@@ -150,6 +150,7 @@
     buildCards();
     buildSegments();
     buildScope();
+    placeScope();
     S.kStroke = 0;
   }
 
@@ -260,6 +261,15 @@
           { 'text-anchor': anc });
     }
 
+    // "Deeper" button: continues this person's lineage on another page
+    if (p.deeper) {
+      var dx0 = bx.x + bx.w + 10, dl = el('a', { href: p.deeper, tabindex: -1, 'class': 'geno-deeper' }, g);
+      el('title', {}, dl, 'Deeper genealogy: ' + p.name + ' back to 1622');
+      el('rect', { x: dx0, y: T + 12, width: 96, height: 40, rx: 4, 'class': 'geno-deeper__box' }, dl);
+      txt(dl, dx0 + 48, T + 30, 'DEEPER ↑', 'geno-t--deeper', { 'text-anchor': 'middle' });
+      txt(dl, dx0 + 48, T + 44, 'back to 1622', 'geno-t--xs geno-t--deeper2', { 'text-anchor': 'middle' });
+    }
+
     return { g: g, box: box, pAcc: pAcc, nAcc: nAcc, val: val, init: (i + 1) % 2,
              gate: { x: x(-70), y: T + 80 }, out: { x: X, y: T + 80 }, last: {} };
   }
@@ -309,9 +319,20 @@
 
   function drawTitleBlock() {
     var g = el('g', { 'class': 'geno-tb' }, svg);
-    var w = G.wide ? 286 : G.W - 48, x0 = G.W - 24 - w;
-    var h = 116, y0 = G.wide ? G.bot + 100 : G.T(N - 1) + 366;   // desktop: the empty bottom-right slot
     var rev = root.getAttribute('data-rev-date') || '';
+    if (G.wide) {
+      // compact block under the scope, bottom-right corner of the sheet
+      var s = slot(), w = s.w, x0 = s.x, y0 = G.H - 24 - 8 - 52;
+      el('rect', { x: x0, y: y0, width: w, height: 52, 'class': 'geno-s geno-s--frame geno-tb__box' }, g);
+      line(g, x0, y0 + 26, x0 + w, y0 + 26, 'geno-s geno-s--thin');
+      line(g, x0 + w - 64, y0, x0 + w - 64, y0 + 26, 'geno-s geno-s--thin');
+      txt(g, x0 + 8, y0 + 18, 'ACADEMIC GENEALOGY', 'geno-t--tbtitle');
+      txt(g, x0 + w - 56, y0 + 17, 'SHEET 1/1', 'geno-t--xs');
+      txt(g, x0 + 8, y0 + 43, people[0].name + ' · ring_osc_' + N + 'stg · rev A · ' + rev, 'geno-t--xs');
+      return;
+    }
+    var w = G.W - 48, x0 = G.W - 24 - w;
+    var h = 116, y0 = G.T(N - 1) + 366;
     el('rect', { x: x0, y: y0, width: w, height: h, 'class': 'geno-s geno-s--frame geno-tb__box' }, g);
     var rows = [y0 + 34, y0 + 61, y0 + 88];
     rows.forEach(function (y) { line(g, x0, y, x0 + w, y, 'geno-s geno-s--thin'); });
@@ -333,6 +354,11 @@
       txt(g, cx + 8, y - 6, c[2], 'geno-t--xs geno-t--muted');
       txt(g, cx + 8, y + 6, c[3], 'geno-t--sm');
     });
+  }
+  // desktop: the empty bottom-right slot of the folded ring (under X5, right of the bottom row)
+  function slot() {
+    var x = boxOf(G.n1).cx + 122 + 14;               // right edge of the first bottom-row card + gap
+    return { x: x, y: G.bot + 96, w: G.W - 30 - x };
   }
 
   function drawOverviewLabels() {
@@ -408,6 +434,13 @@
       var meta = [p.degree_year, p.phd_institution ? 'Ph.D., ' + p.phd_institution : ''].filter(Boolean).join(' · ');
       if (meta) add(b, 'geno-card__meta', meta);
       if (rel) add(b, 'geno-card__rel', rel);
+      if (p.deeper) {
+        var dlink = document.createElement('a');
+        dlink.className = 'geno-card__deeper';
+        dlink.href = p.deeper; dlink.tabIndex = -1;
+        dlink.textContent = 'Deeper genealogy → 1622';
+        b.appendChild(dlink);
+      }
       c.appendChild(b);
       cardsBox.appendChild(c);
       S.cards.push({ el: c, on: null, cur: null });
@@ -416,6 +449,21 @@
       var d = document.createElement('div');
       d.className = cls; d.textContent = text; parent.appendChild(d);
       return d;
+    }
+  }
+
+  function placeScope() {
+    if (G.wide) {
+      var sl = slot();
+      world.appendChild(scopeEl);                   // scales and pans with the sheet: never covers a card
+      scopeEl.classList.add('geno-scope--sheet');
+      scopeEl.style.left = sl.x + 'px';
+      scopeEl.style.top = sl.y + 'px';
+      scopeEl.style.width = sl.w + 'px';
+    } else {
+      pane.insertBefore(scopeEl, q('.geno-finale'));
+      scopeEl.classList.remove('geno-scope--sheet');
+      scopeEl.style.left = scopeEl.style.top = scopeEl.style.width = '';
     }
   }
 
@@ -766,12 +814,7 @@
     view.fitTop = G.wide ? capH : capH + Math.max(0, (paneH - capH - dock - G.H * view.sFit) / 2);
   }
 
-  // desktop: centre the sheet, but shift it right to leave the scope its corner when possible
-  var SCOPE_RESERVE = 288;
-  function sideX(s) {
-    var free = paneW - G.W * s, c = free / 2;
-    return Math.max(c, Math.min(SCOPE_RESERVE, free - 16));
-  }
+  function sideX(s) { return (paneW - G.W * s) / 2; }
 
   /* ---------- main loop ---------- */
   var raf = 0, lastNow = 0, visible = true, replaying = false;
