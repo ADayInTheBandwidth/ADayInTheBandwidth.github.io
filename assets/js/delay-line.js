@@ -169,7 +169,7 @@
     PHD.forEach(function (p, j) {
       addStage({ key: 'phd' + j, p: p, x: G.SB, cy: branchY(PHD, j), kind: 'phd', tag: 'Ph.D. · ' + p.role });
     });
-    addStage({ key: 'me', p: ME, x: G.SX, cy: G.cyMe, kind: 'me', tag: 'X1 · me · signal origin' });
+    addStage({ key: 'me', p: ME, x: G.SX, cy: G.cyMe, kind: 'me', tag: 'X1 · me' });
 
     // pulses (two in the branch region)
     for (var i = 0; i < 2; i++) {

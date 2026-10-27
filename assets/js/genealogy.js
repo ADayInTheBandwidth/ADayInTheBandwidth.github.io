@@ -34,7 +34,8 @@
   var track = q('.geno-track'), pane = q('.geno-pane'), world = q('.geno-world'),
       svg = q('.geno-svg'), cardsBox = q('.geno-cards'), scopeSvg = q('.geno-scope__svg'),
       probeLbl = q('.geno-scope__probe'), timeLbl = q('.geno-scope__time'), scopeEl = q('.geno-scope'),
-      caption = q('.geno-caption'), replayBtn = q('.geno-replay'), heading = q('.geno__heading');
+      caption = q('.geno-caption'), replayBtn = q('.geno-replay'), heading = q('.geno__heading'),
+      finaleEl = q('.geno-finale'), cta = q('.geno-cta');
 
   var NUM = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven'];
   var CAPTION = (APEX >= 0 ? 'Both lineages meet at ' + people[APEX].name + '. ' : '') +
@@ -595,6 +596,9 @@
     renderScrub(1);
     setLit(S.routes.lead, 0, 0);
     root.classList.add('is-finale');
+    caption.textContent = CAPTION;
+    replayBtn.hidden = false;
+    fitOverview();
   }
   function exitFinale() {
     mode = 'scrub';
@@ -602,13 +606,11 @@
     freeT = -1;
     root.classList.remove('is-finale', 'is-overview', 'is-closing', 'is-closed');
     caption.textContent = '';
-    if (document.activeElement === replayBtn) heading.focus({ preventScroll: true });
+    if (finaleEl.contains(document.activeElement)) heading.focus({ preventScroll: true });
     replayBtn.hidden = true;
   }
   function closeLoop() {
     root.classList.add('is-closed');
-    caption.textContent = CAPTION;
-    replayBtn.hidden = false;
     var b = S.stages[0].g;
     b.classList.remove('is-bump');
     void b.getBoundingClientRect();
@@ -809,9 +811,15 @@
     if (G.wide) view.s0 = clamp((paneH - 12) / G.H, 0.7, 1.05);
     D = S.scrub.total * (G.wide ? clamp(paneH * 0.55, 260, 420) : clamp(paneH * 0.42, 220, 360));
     track.style.height = Math.round(D + paneH * 1.75) + 'px';
-    var capH = G.wide ? 64 : 112, dock = G.wide ? 0 : 124;
-    view.sFit = Math.min((paneW - 24) / G.W, (paneH - capH - dock - 12) / G.H);
-    view.fitTop = G.wide ? capH : capH + Math.max(0, (paneH - capH - dock - G.H * view.sFit) / 2);
+    fitOverview();
+  }
+  // zoomed-out view: fit the whole sheet under the caption / Replay / Deeper bar
+  function fitOverview() {
+    var bar = mode === 'finale' && finaleEl.offsetHeight ? finaleEl.offsetTop + finaleEl.offsetHeight + 12
+                                                         : (G.wide ? 64 : 112);
+    var dock = G.wide ? 0 : 124;
+    view.sFit = Math.min((paneW - 24) / G.W, (paneH - bar - dock - 12) / G.H);
+    view.fitTop = G.wide ? bar : bar + Math.max(0, (paneH - bar - dock - G.H * view.sFit) / 2);
   }
 
   function sideX(s) { return (paneW - G.W * s) / 2; }
@@ -885,6 +893,9 @@
   }
 
   /* ---------- setup ---------- */
+  var deeperUrl = APEX >= 0 && people[APEX].deeper;
+  if (deeperUrl) { cta.href = deeperUrl; cta.hidden = false; }
+
   function setup() {
     reduce = !!(reduceMQ && reduceMQ.matches);
     root.classList.add('geno--js');

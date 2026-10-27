@@ -401,6 +401,14 @@ html[data-theme="dark"] .geno-card__photo img {
   .geno-scope__svg { height: 108px; }
 }
 
+/* phones: caption on its own line, Replay + Deeper underneath */
+.geno:not(.geno--wide) {
+  .geno-caption { flex-basis: 100%; font-size: 14px; }
+  .geno-cta { padding: 6px 12px 6px 10px; gap: 10px; }
+  .geno-cta__txt strong { font-size: 15px; }
+  .geno-cta__txt small { font-size: 11px; }
+}
+
 /* phones: dock the scope to the bottom of the pane */
 .geno:not(.geno--wide) .geno-scope {
   left: 8px;
@@ -428,7 +436,50 @@ html[data-theme="dark"] .geno-card__photo img {
   gap: 6px 14px;
   padding: 0 16px;
   pointer-events: none;
+  visibility: hidden;          // laid out from the start of the finale, shown once the loop closes
+  opacity: 0;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
 }
+.is-closed .geno-finale {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* big "Deeper genealogy" button shown after the ring starts oscillating */
+.geno-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px 8px 12px;
+  color: var(--geno-paper);
+  background: var(--geno-accent);
+  border: 2px solid var(--geno-accent);
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+  text-decoration: none;
+  pointer-events: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover, &:focus-visible {
+    color: var(--geno-paper);
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.24);
+  }
+  &:focus-visible { outline: 2px solid var(--geno-accent); outline-offset: 3px; }
+  &[hidden] { display: none; }
+}
+.is-closed .geno-cta { animation: geno-cta-in 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+@keyframes geno-cta-in {
+  0%   { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.geno-cta__icon { flex: 0 0 auto; }
+.geno-cta__txt { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+.geno-cta__txt strong { font-size: 17px; }
+.geno-cta__txt small { font-size: 12px; opacity: 0.9; }
+.geno-cta__arrow { font-size: 22px; line-height: 1; }
 .geno-caption {
   margin: 0;
   max-width: 44em;
@@ -473,8 +524,8 @@ html[data-theme="dark"] .geno-card__photo img {
    -------------------------------------------------------------------------- */
 
 .geno.geno--static {
-  .geno-track { padding-bottom: 230px; }
-  &.geno--wide .geno-track { padding-bottom: 70px; }
+  .geno-track { padding-bottom: 300px; }
+  &.geno--wide .geno-track { padding-bottom: 120px; }
   .geno-pane { position: relative; top: auto; overflow: visible; }
   .geno-world { will-change: auto; }
   .geno-finale { top: calc(100% + 12px); }
@@ -495,4 +546,12 @@ html[data-theme="dark"] .geno-card__photo img {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* theme links are underlined; not these two buttons */
+.geno a.geno-cta,
+.geno a.geno-cta:hover,
+.geno a.geno-deeper,
+.geno a.geno-deeper:hover {
+  text-decoration: none;
 }
