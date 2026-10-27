@@ -401,12 +401,24 @@ html[data-theme="dark"] .geno-card__photo img {
   .geno-scope__svg { height: 108px; }
 }
 
-/* phones: caption on its own line, Replay + Deeper underneath */
+/* phones: caption, then a full-width Deeper button, then a small Replay */
 .geno:not(.geno--wide) {
-  .geno-caption { flex-basis: 100%; font-size: 14px; }
-  .geno-cta { padding: 6px 12px 6px 10px; gap: 10px; }
-  .geno-cta__txt strong { font-size: 15px; }
-  .geno-cta__txt small { font-size: 11px; }
+  .geno-finale { gap: 10px; }
+  .geno-caption { flex-basis: 100%; font-size: 14px; order: 1; }
+  .geno-cta {
+    order: 2;
+    flex: 1 1 100%;
+    max-width: 420px;
+    justify-content: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 10px;
+  }
+  .geno-cta__icon { width: 28px; height: 40px; }
+  .geno-cta__txt strong { font-size: 19px; }
+  .geno-cta__txt small { font-size: 13px; }
+  .geno-cta__arrow { font-size: 26px; margin-left: auto; }
+  .geno-replay { order: 3; }
 }
 
 /* phones: dock the scope to the bottom of the pane */
