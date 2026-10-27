@@ -1,0 +1,102 @@
+# Academic genealogy — drawn as a 9-stage CMOS ring oscillator on /genealogy/.
+#
+# Order matters: top of the schematic (X1) first. The first and last entries
+# are the same person; the last one only marks where the loop closes, so the
+# ring has 9 stages (X1–X9).
+#
+# Fields
+#   name, institution, role   shown on each card
+#   direction                 up = MS lineage ("advisor of"), apex = common
+#                             ancestor, down = PhD lineage ("student of")
+#   degree_year               optional, e.g. "Ph.D. 1969"
+#   phd_institution           optional, where they earned their Ph.D.
+#   link                      optional, e.g. IEEE Xplore author page. Clicking
+#                             the stage box or the name on the card opens it.
+#   photo                     optional. Leave empty to auto-detect
+#                             images/Academic_Genealogy/First_Last.(jpg|jpeg|png)
+#                             (middle initials dropped). Set a path to override.
+# Empty optional fields are hidden.
+
+- name: John Kim
+  institution: Oregon State University
+  role: me
+  degree_year:
+  phd_institution:
+  link:
+  photo:
+
+- name: Hyungil Chae
+  institution: Konkuk University
+  role: MS advisor
+  direction: up
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/38237626100
+  photo:
+
+- name: Michael P. Flynn
+  institution: University of Michigan
+  role: advisor of Hyungil Chae
+  direction: up
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37271976300
+  photo:
+
+- name: David J. Allstot
+  institution: Carnegie Mellon University
+  role: advisor of Michael Flynn
+  direction: up
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37275544000
+  photo:
+
+- name: Paul R. Gray
+  institution: UC Berkeley
+  role: common ancestor
+  direction: apex
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37341216300
+  photo:
+
+- name: Bang-Sup Song
+  institution: UC San Diego
+  role: student of Paul R. Gray
+  direction: down
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37274662800
+  photo:
+
+- name: Un-Ku Moon
+  institution: Oregon State University
+  role: student of Bang-Sup Song
+  direction: down
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37276672400
+  photo:
+
+- name: Pavan K. Hanumolu
+  institution: University of Illinois Urbana-Champaign
+  role: student of Un-Ku Moon
+  direction: down
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37277129200
+  photo:
+
+- name: Tejasvi Anand
+  institution: Oregon State University
+  role: PhD advisor
+  direction: down
+  degree_year:
+  phd_institution:
+  link: https://ieeexplore.ieee.org/author/37587297000
+  photo:
+
+- name: John Kim
+  institution: Oregon State University
+  role: me (loop closes)

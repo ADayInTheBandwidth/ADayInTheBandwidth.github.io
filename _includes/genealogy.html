@@ -1,0 +1,59 @@
+{% comment %}
+  Academic genealogy drawn as a 9-stage CMOS ring oscillator.
+  Data: _data/genealogy.yml   Style: _sass/layout/_genealogy.scss   Script: assets/js/genealogy.js
+  Photos are auto-detected in images/Academic_Genealogy/ as First_Last.(jpg|jpeg|png).
+{% endcomment %}
+{% include base_path %}
+{% assign geno_people = site.data.genealogy %}
+{% assign geno_files = site.static_files | where_exp: "f", "f.path contains '/images/Academic_Genealogy/'" %}
+
+{% capture geno_json %}[{% for p in geno_people %}{% assign geno_parts = p.name | split: " " %}{% assign geno_slug = geno_parts.first | append: "_" | append: geno_parts.last %}{% assign geno_photo = p.photo %}{% if geno_photo == nil or geno_photo == "" %}{% for f in geno_files %}{% if f.basename == geno_slug %}{% assign geno_photo = f.path %}{% endif %}{% endfor %}{% endif %}{% if geno_photo and geno_photo != "" %}{% unless geno_photo contains "://" %}{% assign geno_photo = geno_photo | relative_url %}{% endunless %}{% endif %}
+  {"name": {{ p.name | jsonify }}, "institution": {{ p.institution | jsonify }}, "role": {{ p.role | jsonify }}, "direction": {{ p.direction | jsonify }}, "degree_year": {{ p.degree_year | jsonify }}, "phd_institution": {{ p.phd_institution | jsonify }}, "link": {{ p.link | jsonify }}, "photo": {% if geno_photo and geno_photo != "" %}{{ geno_photo | jsonify }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}
+]{% endcapture %}
+
+<section class="geno" id="academic-genealogy" aria-labelledby="geno-heading" data-rev-date="{{ site.time | date: "%Y-%m-%d" }}">
+  <h2 id="geno-heading" class="geno__heading" tabindex="-1">My lineage as a ring oscillator</h2>
+  <p class="geno__intro">
+    My M.S. lineage goes up four generations to Paul R. Gray, and my Ph.D.
+    lineage comes back down from him to me. Each person is one CMOS inverter
+    stage. Scroll down to follow the signal.
+  </p>
+
+  {% comment %} Semantic version of the chain. Shown without JS; kept for screen readers otherwise. {% endcomment %}
+  <ol class="geno-list">
+    {% for p in geno_people %}{% unless forloop.last %}
+    {% assign geno_prev_i = forloop.index0 | minus: 1 %}{% assign geno_prev = geno_people[geno_prev_i] %}
+    <li class="geno-list__item">
+      <strong>X{{ forloop.index }}: {% if p.link and p.link != "" %}<a href="{{ p.link }}" target="_blank" rel="noopener">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</strong>
+      — {{ p.institution }}; {{ p.role }}{% if p.degree_year and p.degree_year != "" %}; {{ p.degree_year }}{% endif %}{% if p.phd_institution and p.phd_institution != "" %}; Ph.D., {{ p.phd_institution }}{% endif %}.
+      {% if p.direction == "up" %}Advisor of {{ geno_prev.name }}.{% elsif p.direction == "apex" %}Advisor of {{ geno_prev.name }}; both lineages meet here.{% elsif p.direction == "down" %}Student of {{ geno_prev.name }}.{% endif %}
+    </li>
+    {% endunless %}{% endfor %}
+    <li class="geno-list__item">The output of X9 feeds back to X1, closing a loop of nine inverting stages, so the ring oscillates.</li>
+  </ol>
+
+  <div class="geno-track">
+    <div class="geno-pane">
+      <div class="geno-world" aria-hidden="true">
+        <svg class="geno-svg" xmlns="http://www.w3.org/2000/svg" focusable="false"></svg>
+        <div class="geno-cards"></div>
+      </div>
+      <div class="geno-scope" aria-hidden="true">
+        <div class="geno-scope__bar"><span class="geno-scope__ch">CH1</span><span class="geno-scope__probe">probe N1</span></div>
+        <svg class="geno-scope__svg" viewBox="0 0 240 100" preserveAspectRatio="none" focusable="false"></svg>
+        <div class="geno-scope__foot"><span>1 V/div</span><span class="geno-scope__time">50 ps/div</span></div>
+      </div>
+      <div class="geno-finale">
+        <p class="geno-caption" aria-live="polite"></p>
+        <button type="button" class="geno-replay" hidden>
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M3.3 6.2A5 5 0 1 1 3 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M2.5 2.5v4h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Replay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" class="geno-data">{{ geno_json | strip }}</script>
+</section>
+
+<script src="{{ "/assets/js/genealogy.js" | relative_url }}" defer></script>

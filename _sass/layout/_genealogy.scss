@@ -1,0 +1,468 @@
+/* ==========================================================================
+   ACADEMIC GENEALOGY — 9-stage ring oscillator schematic
+   Markup: _includes/genealogy.html   Script: assets/js/genealogy.js
+   Colors come from the theme's CSS variables, so light/dark follow the toggle.
+   ========================================================================== */
+
+.geno {
+  --geno-top: #{$masthead-height};
+  --geno-bottom: 0px; // the site footer is fixed to the bottom of the window
+  --geno-ink: var(--global-text-color);
+  --geno-paper: var(--global-bg-color);
+  --geno-accent: var(--global-base-color);
+  --geno-line: var(--global-border-color);
+  margin-top: 1.5em;
+}
+
+.geno__heading {
+  margin-top: 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.geno__intro {
+  max-width: 40em;
+}
+
+/* Semantic list: visible without JS, screen-reader only once the drawing runs */
+.geno-list {
+  margin-bottom: 1.5em;
+}
+
+.geno-list__item {
+  margin-bottom: 0.4em;
+}
+
+.geno--js .geno-list {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Track (scroll length) and sticky pane
+   -------------------------------------------------------------------------- */
+
+.geno-track {
+  display: none;
+  position: relative;
+}
+
+.geno--js .geno-track {
+  display: block;
+}
+
+.geno-pane {
+  position: sticky;
+  top: var(--geno-top);
+  height: calc(100vh - var(--geno-top) - var(--geno-bottom));
+  overflow: hidden;
+}
+
+@supports (height: 100svh) {
+  .geno-pane {
+    height: calc(100svh - var(--geno-top) - var(--geno-bottom));
+  }
+}
+
+.geno-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.geno-cards {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none; // let clicks reach the schematic; visible cards re-enable it
+}
+
+/* --------------------------------------------------------------------------
+   Schematic (SVG)
+   -------------------------------------------------------------------------- */
+
+.geno-svg {
+  --geno-k: 1;
+  --geno-sk: calc(1 + (var(--geno-k) - 1) * 0.55);
+  display: block;
+  overflow: visible;
+  font-family: $monospace;
+}
+
+.geno-paper { fill: var(--geno-paper); }
+.geno-gdot  { fill: var(--geno-ink); opacity: 0.17; }
+
+.geno-s {
+  fill: none;
+  stroke: var(--geno-ink);
+  stroke-width: calc(1.25px * var(--geno-sk));
+  stroke-linecap: square;
+}
+.geno-s--thin  { stroke-width: calc(0.8px * var(--geno-sk)); opacity: 0.6; }
+.geno-s--frame { stroke-width: calc(1.4px * var(--geno-sk)); }
+.geno-s--rail  { stroke-width: calc(1.9px * var(--geno-sk)); }
+.geno-s--ch    { stroke-width: calc(2.2px * var(--geno-sk)); }
+.geno-bub      { fill: var(--geno-paper); }
+.geno-jn       { fill: var(--geno-ink); }
+
+.geno-w {
+  fill: none;
+  stroke: var(--geno-ink);
+  stroke-width: calc(1.25px * var(--geno-sk));
+}
+
+/* feedback wire: dim and dashed until the loop closes */
+.geno-w--fb {
+  opacity: 0.28;
+  stroke-dasharray: 5 4;
+  transition: opacity 0.6s ease;
+}
+.is-closing .geno-w--fb,
+.is-closed .geno-w--fb {
+  opacity: 1;
+  stroke-dasharray: none;
+}
+
+.geno-lit {
+  fill: none;
+  stroke: var(--geno-accent);
+  stroke-width: calc(2.4px * var(--geno-k));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
+.geno-acc line {
+  stroke: var(--geno-accent);
+  stroke-width: calc(2.2px * var(--geno-sk));
+  stroke-linecap: square;
+}
+.geno-acc .geno-acc__ch { stroke-width: calc(3.6px * var(--geno-sk)); }
+
+.geno-inst {
+  fill: none;
+  stroke: var(--geno-ink);
+  stroke-opacity: 0.38;
+  stroke-width: 1;
+  stroke-dasharray: 5 3;
+}
+.geno-stage--apex .geno-inst {
+  stroke: var(--geno-accent);
+  stroke-opacity: 1;
+  stroke-width: calc(1.6px * var(--geno-sk));
+  stroke-dasharray: none;
+  fill: var(--geno-accent);
+  fill-opacity: 0.06;
+}
+
+/* clickable instance box (opens the person's profile) */
+.geno-hit { fill: transparent; cursor: pointer; }
+.geno-t--hint { fill: var(--geno-accent); opacity: 0.55; transition: opacity 0.2s ease; pointer-events: none; }
+.geno-stage.is-link:hover {
+  .geno-inst { stroke: var(--geno-accent); stroke-opacity: 1; stroke-dasharray: none; fill: var(--geno-accent); fill-opacity: 0.08; }
+  .geno-t--hint { opacity: 1; }
+}
+
+.geno-t {
+  fill: var(--geno-ink);
+  font-family: $monospace;
+  font-size: 11px;
+}
+.geno-t--b      { font-weight: 700; }
+.geno-t--inst   { font-size: 13px; }
+.geno-t--note   { fill: var(--geno-accent); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; }
+.geno-t--sm     { font-size: 10px; }
+.geno-t--xs     { font-size: 8.5px; }
+.geno-t--muted  { fill-opacity: 0.55; }
+.geno-t--zone   { font-size: 8px; fill-opacity: 0.45; }
+.geno-t--title  { font-size: 15px; font-weight: 700; letter-spacing: 0.14em; }
+.geno-t--tbtitle { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; }
+.geno-t--net    { font-size: 10.5px; }
+.geno-t--val    { fill-opacity: 0.5; }
+.geno-t--fbl    { font-size: 9.5px; letter-spacing: 0.2em; }
+.is-sw .geno-t--val { fill: var(--geno-accent); fill-opacity: 1; font-weight: 700; }
+
+.geno-stage.is-bump {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: geno-bump 0.75s cubic-bezier(0.3, 1.7, 0.5, 1);
+}
+@keyframes geno-bump {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.09); }
+  65%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+/* big labels that appear only in the zoomed-out view */
+.geno-ov {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.is-overview .geno-ov { opacity: 1; }
+.geno-t--ov {
+  font-size: 30px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--geno-paper);
+  stroke-width: 6px;
+}
+.geno-t--ovn     { font-size: 56px; stroke-width: 10px; }
+.geno-t--ovw     { font-size: 21px; stroke-width: 6px; }
+.geno-t--ovapex  { fill: var(--geno-accent); }
+
+/* signal pulse */
+.geno-pulse__glow  { fill: var(--geno-accent); opacity: 0.55; }
+.geno-pulse__core  { fill: var(--geno-accent); stroke: var(--geno-paper); stroke-width: 1; }
+.geno-pulse__trail { fill: var(--geno-accent); }
+
+/* --------------------------------------------------------------------------
+   Person cards (positioned in sheet coordinates, scale with the drawing)
+   -------------------------------------------------------------------------- */
+
+.geno-card {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--geno-paper);
+  color: var(--geno-ink);
+  border: 1px solid var(--global-dark-border-color);
+  border-radius: $border-radius;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  font-family: $sans-serif;
+  line-height: 1.3;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+.geno-card--a { transform: translate(-50%, calc(-100% + 12px)); } /* desktop: above the stage */
+.geno-card--u { transform: translate(-50%, -12px); }               /* desktop: under the stage */
+.geno-card--b { transform: translateY(10px); }                     /* phones: below the stage */
+
+.geno-card.is-on { opacity: 1; pointer-events: auto; }
+.geno-card--a.is-on { transform: translate(-50%, -100%); }
+.geno-card--u.is-on { transform: translate(-50%, 0); }
+.geno-card--b.is-on { transform: translateY(0); }
+.geno-card.is-cur,
+.geno-card--apex { border-color: var(--geno-accent); }
+.is-finale .geno-card { opacity: 0; pointer-events: none; }
+
+.geno-card__photo {
+  flex: 0 0 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid var(--geno-line);
+  background: var(--global-footer-bg-color);
+  font-family: $monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 22%;
+    filter: grayscale(1) contrast(1.08);
+  }
+}
+html[data-theme="dark"] .geno-card__photo img {
+  filter: grayscale(1) contrast(1.05) brightness(0.92);
+}
+
+.geno-card__body { min-width: 0; }
+.geno-card__tag {
+  font-family: $monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.geno-card__name {
+  margin-top: 2px;
+  font-size: 17px;
+  font-weight: 700;
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+.geno-card__org  { font-size: 13.5px; }
+.geno-card__meta { font-size: 12px; opacity: 0.75; }
+.geno-card__rel {
+  margin-top: 4px;
+  font-family: $monospace;
+  font-size: 11.5px;
+  color: var(--geno-accent);
+}
+
+.geno--wide {
+  .geno-card { gap: 10px; padding: 10px 12px; }
+  .geno-card__photo { flex-basis: 52px; height: 52px; font-size: 17px; }
+  .geno-card__name { font-size: 16px; }
+}
+
+.geno:not(.geno--wide) {
+  .geno-card { gap: 10px; padding: 10px 12px; }
+  .geno-card__photo { flex-basis: 56px; height: 56px; font-size: 18px; }
+  .geno-card__name { font-size: 16px; }
+}
+
+/* --------------------------------------------------------------------------
+   Oscilloscope (sticky: lives in the pane)
+   -------------------------------------------------------------------------- */
+
+.geno-scope {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 2;
+  width: 260px;
+  padding: 6px 8px 5px;
+  background: var(--geno-paper);
+  color: var(--geno-ink);
+  border: 1px solid var(--global-dark-border-color);
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-family: $monospace;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.geno-scope__bar,
+.geno-scope__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.geno-scope__ch { color: var(--geno-accent); font-weight: 700; }
+.geno-scope__probe { opacity: 0.75; }
+.geno-scope__foot { opacity: 0.55; }
+.geno-scope__svg {
+  display: block;
+  width: 100%;
+  height: 104px;
+  margin: 4px 0 3px;
+  background: rgba(128, 128, 128, 0.06);
+}
+.geno-sc-div   { stroke: var(--geno-ink); stroke-opacity: 0.12; stroke-width: 0.6; vector-effect: non-scaling-stroke; }
+.geno-sc-axis  { stroke: var(--geno-ink); stroke-opacity: 0.3; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
+.geno-sc-trace {
+  fill: none;
+  stroke: var(--geno-accent);
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.geno-sc-head  { fill: var(--geno-accent); }
+
+/* phones: dock the scope to the bottom of the pane */
+.geno:not(.geno--wide) .geno-scope {
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  width: auto;
+
+  .geno-scope__svg { height: 66px; }
+}
+
+/* --------------------------------------------------------------------------
+   Finale caption + Replay
+   -------------------------------------------------------------------------- */
+
+.geno-finale {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 0 16px;
+  pointer-events: none;
+}
+.geno-caption {
+  margin: 0;
+  max-width: 44em;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.is-closed .geno-caption { opacity: 1; }
+
+.geno-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  font-family: $sans-serif;
+  font-size: 13px;
+  color: var(--geno-accent);
+  background: var(--geno-paper);
+  border: 1px solid var(--geno-accent);
+  border-radius: $border-radius;
+  cursor: pointer;
+  pointer-events: auto;
+
+  &:hover {
+    color: var(--geno-paper);
+    background: var(--geno-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--geno-accent);
+    outline-offset: 3px;
+  }
+
+  &[hidden] { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: one static, complete schematic
+   -------------------------------------------------------------------------- */
+
+.geno.geno--static {
+  .geno-track { padding-bottom: 230px; }
+  .geno-pane { position: relative; top: auto; overflow: visible; }
+  .geno-world { will-change: auto; }
+  .geno-finale { top: calc(100% + 12px); }
+  .geno-scope {
+    top: calc(100% + 60px);
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    width: 260px;
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geno *,
+  .geno *::before,
+  .geno *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

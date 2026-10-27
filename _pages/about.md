@@ -33,5 +33,6 @@ SAR ADC for PAM-4 SerDes and a high-performance true random number generator
 whose results were published in ASSCC 2022 and JSSC 2024.
 
 You can find the full list of my work on the [Publications](/publications/)
-page, my recent [Talks](/talks/), and my [CV](/cv/). Feel free to reach out at
+page, my recent [Talks](/talks/), my [CV](/cv/), and my
+[academic genealogy](/genealogy/). Feel free to reach out at
 [kimjonghyun9704@gmail.com](mailto:kimjonghyun9704@gmail.com).
