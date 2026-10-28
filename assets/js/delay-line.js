@@ -4,7 +4,7 @@
    _data/genealogy.yml (me + both branches) and _data/delay_line.json (chain).
 
    Layout, top to bottom (the signal flows down, back in time):
-     X1 (me) ── splits ──> M.S. branch (left) and Ph.D. branch (right)
+     X1 (me) ── splits ──> my MS advisor's branch (left) and PhD advisor's branch (right)
                            both merge into D1 = Paul R. Gray
      D1 → D2 → … → D18 (Friedrich Leibniz, 1622) → end of the recorded line
    A proportional year axis on the left (1969 at the top, 1622 at the bottom)
@@ -51,7 +51,7 @@
     return n;
   }
   function initials(name) {
-    return name.split(/\s+/).filter(function (w) { return !/^[A-Z]\.$/.test(w) && !/^(von|van|de)$/.test(w); })
+    return name.replace(/\(.*?\)/g, ' ').trim().split(/\s+/).filter(function (w) { return !/^[A-Z]\.$/.test(w) && !/^(von|van|de)$/.test(w); })
       .map(function (w) { return w.charAt(0); }).join('').slice(0, 3).toUpperCase();
   }
 
@@ -153,9 +153,6 @@
     el('text', { x: G.SX + 22, y: G.term - 2, 'class': 'dl-t dl-t--src' }, sg, 'END OF THE RECORDED LINE');
     el('text', { x: G.SX + 22, y: G.term + 11, 'class': 'dl-t dl-t--muted' }, sg, 'advisor unknown before ' + Y0);
 
-    // branch tags
-    el('text', { x: G.SA + 8, y: G.split + 16, 'class': 'dl-t dl-t--tag' }, svg, 'M.S. BRANCH');
-    el('text', { x: G.SB - 8, y: G.split + 16, 'class': 'dl-t dl-t--tag', 'text-anchor': 'end' }, svg, 'PH.D. BRANCH');
     el('text', { x: G.SX + 8, y: G.merge - 8, 'class': 'dl-t dl-t--tag' }, svg, 'MERGE · X5');
 
     // stages
@@ -164,10 +161,10 @@
                  tag: p.id + (p.degreeYear ? ' · ' + p.degreeYear : ''), anchor: k === 0 ? 'dl-paul' : null });
     });
     MS.forEach(function (p, j) {
-      addStage({ key: 'ms' + j, p: p, x: G.SA, cy: branchY(MS, j), kind: 'ms', tag: 'M.S. · ' + p.role });
+      addStage({ key: 'ms' + j, p: p, x: G.SA, cy: branchY(MS, j), kind: 'ms', tag: ownRole(p), rel: relOf(p) });
     });
     PHD.forEach(function (p, j) {
-      addStage({ key: 'phd' + j, p: p, x: G.SB, cy: branchY(PHD, j), kind: 'phd', tag: 'Ph.D. · ' + p.role });
+      addStage({ key: 'phd' + j, p: p, x: G.SB, cy: branchY(PHD, j), kind: 'phd', tag: ownRole(p), rel: relOf(p) });
     });
     addStage({ key: 'me', p: ME, x: G.SX, cy: G.cyMe, kind: 'me', tag: 'X1 · me' });
 
@@ -180,6 +177,10 @@
     }
     buildScope();
   }
+
+  // row tag: the person's own role only when it is "MS advisor" / "PhD advisor"
+  function ownRole(p) { return /^(advisor|student) of/i.test(p.role || '') ? '' : (p.role || ''); }
+  function relOf(p) { return /^(advisor|student) of/i.test(p.role || '') ? p.role.charAt(0).toUpperCase() + p.role.slice(1) : ''; }
 
   function wire(d) {
     el('path', { d: d }, wiresBase);
@@ -259,7 +260,7 @@
       ph.textContent = initials(p.name);
     }
     var tx = h('span', 'dl-row__txt', null, b);
-    h('span', 'dl-row__tag', o.tag, tx);
+    if (o.tag) h('span', 'dl-row__tag', o.tag, tx);
     h('span', 'dl-row__name', p.name, tx);
     h('span', 'dl-row__org', p.institution || '', tx);
     if (o.anchor) { var a = h('span', 'dl-anchor'); a.id = o.anchor; b.appendChild(a); }
@@ -291,12 +292,12 @@
       }
     }
     var txt = h('div', 'dl-card__txt', null, cardBody);
-    h('div', 'dl-card__tag', o.tag, txt);
+    if (o.tag) h('div', 'dl-card__tag', o.tag, txt);
     var nm = h('h3', 'dl-card__name', p.name, txt);
     nm.id = 'dl-card-name';
     nm.tabIndex = -1;
     if (p.institution) h('div', 'dl-card__org', p.institution + (p.degreeYear ? ' · ' + p.degreeYear : ''), txt);
-    if (p.note) h('p', 'dl-card__note', p.note, txt);
+    if (p.note || o.rel) h('p', 'dl-card__note', p.note || o.rel, txt);
     var links = h('div', 'dl-card__links', null, txt);
     if (p.mgpUrl) link(links, 'Mathematics Genealogy Project ↗', p.mgpUrl);
     if (p.link) link(links, 'IEEE Xplore ↗', p.link);
@@ -395,7 +396,7 @@
     });
     if (newest) {
       var p = newest.o.p, o = newest.o;
-      sProbe.textContent = 'probe ' + (o.kind === 'chain' ? p.id : o.kind === 'me' ? 'X1' : o.kind === 'ms' ? 'M.S.' : 'Ph.D.');
+      sProbe.textContent = 'probe ' + (o.kind === 'chain' ? p.id : o.kind === 'me' ? 'X1' : p.name.split(/\s+/).pop());
       sYear.textContent = o.kind === 'chain' ? (p.yearApprox ? '~' : '') + p.year : o.kind === 'me' ? 'now' : '—';
       sName.textContent = o.kind === 'ms' || o.kind === 'phd' ? 'branches → ' + CHAIN[0].name : p.name;
     }

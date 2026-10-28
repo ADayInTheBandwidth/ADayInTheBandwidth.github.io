@@ -3,8 +3,8 @@
    Vanilla JS + SVG. Data comes from _data/genealogy.yml via _includes/genealogy.html.
 
    Desktop: the ring is folded like a real schematic: X1..X5 left to right on
-   top (M.S. lineage up to the common ancestor), X6..X9 right to left below
-   (Ph.D. lineage back down), feedback up the left side. Phones: one column.
+   top (up from my MS advisor to the common ancestor), X6..X9 right to left
+   below (back down to my PhD advisor), feedback up the left side. Phones: one column.
    Scroll scrubs a pulse through the chain (reversible). At the end the output
    rings, the sheet zooms out, the pulse whooshes back along the feedback wire
    and the ring free-runs until you scroll back up.
@@ -66,7 +66,7 @@
   }
   function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
   function initials(name) {
-    return name.split(/\s+/).filter(function (w) { return !/^[A-Z]\.$/.test(w); })
+    return name.replace(/\(.*?\)/g, ' ').trim().split(/\s+/).filter(function (w) { return !/^[A-Z]\.$/.test(w); })
       .map(function (w) { return w.charAt(0); }).join('').slice(0, 3).toUpperCase();
   }
   function lastName(name) { var w = name.split(/\s+/); return w[w.length - 1]; }
@@ -183,7 +183,7 @@
     var g = el('g', {}, svg);
     if (G.wide) {
       txt(g, 44, 56, 'LIB  genealogy     CELL  ring_osc_' + N + 'stg     VIEW  schematic', 'geno-t--muted');
-      txt(g, G.W - 44, 56, N + ' inverting stages · odd → no stable state', 'geno-t--muted', { 'text-anchor': 'end' });
+      txt(g, G.W - 44, 56, N + ' inverting stages', 'geno-t--muted', { 'text-anchor': 'end' });
       txt(g, 44, 84, 'ACADEMIC GENEALOGY', 'geno-t--title');
     } else {
       txt(g, 36, 52, 'genealogy / ring_osc_' + N + 'stg / schematic', 'geno-t--muted');
@@ -265,7 +265,7 @@
     // "Deeper" button: continues this person's lineage on another page
     if (p.deeper) {
       var dx0 = bx.x + bx.w + 10, dl = el('a', { href: p.deeper, tabindex: -1, 'class': 'geno-deeper' }, g);
-      el('title', {}, dl, 'Deeper genealogy: ' + p.name + ' back to 1622');
+      el('title', {}, dl, 'Explore deeper lineage');
       el('rect', { x: dx0, y: T + 12, width: 96, height: 40, rx: 4, 'class': 'geno-deeper__box' }, dl);
       txt(dl, dx0 + 48, T + 30, 'DEEPER ↑', 'geno-t--deeper', { 'text-anchor': 'middle' });
       txt(dl, dx0 + 48, T + 44, 'back to 1622', 'geno-t--xs geno-t--deeper2', { 'text-anchor': 'middle' });
@@ -329,7 +329,8 @@
       line(g, x0 + w - 64, y0, x0 + w - 64, y0 + 26, 'geno-s geno-s--thin');
       txt(g, x0 + 8, y0 + 18, 'ACADEMIC GENEALOGY', 'geno-t--tbtitle');
       txt(g, x0 + w - 56, y0 + 17, 'SHEET 1/1', 'geno-t--xs');
-      txt(g, x0 + 8, y0 + 43, people[0].name + ' · ring_osc_' + N + 'stg · rev A · ' + rev, 'geno-t--xs');
+      txt(g, x0 + 8, y0 + 43, people[0].name, 'geno-t--xs');
+      txt(g, x0 + w - 8, y0 + 43, 'rev A · ' + rev, 'geno-t--xs', { 'text-anchor': 'end' });
       return;
     }
     var w = G.W - 48, x0 = G.W - 24 - w;
@@ -417,11 +418,10 @@
       var prev = people[i - 1];
       var roleLc = (p.role || '').toLowerCase();
       var tag = /^(advisor|student) of/.test(roleLc)
-        ? (p.direction === 'up' ? 'M.S. lineage' : 'Ph.D. lineage') : p.role;
+        ? '' : p.role;
       var rel = '';
       if (p.direction === 'up' || p.direction === 'apex') rel = '↑ advisor of ' + prev.name;
       else if (p.direction === 'down') rel = '↓ student of ' + prev.name;
-      else if (i === 0) rel = 'start · M.S. lineage goes up ↑';
       add(b, 'geno-card__tag', 'X' + (i + 1) + (tag ? ' · ' + tag : ''));
       var nm = add(b, 'geno-card__name', '');
       if (p.link) {
@@ -439,7 +439,7 @@
         var dlink = document.createElement('a');
         dlink.className = 'geno-card__deeper';
         dlink.href = p.deeper; dlink.tabIndex = -1;
-        dlink.textContent = 'Deeper genealogy → 1622';
+        dlink.textContent = 'Explore deeper lineage →';
         b.appendChild(dlink);
       }
       c.appendChild(b);

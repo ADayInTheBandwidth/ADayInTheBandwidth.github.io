@@ -19,7 +19,7 @@
 #                             (middle initials dropped). Set a path to override.
 # Empty optional fields are hidden.
 
-- name: John Kim
+- name: John (Jong Hyun) Kim
   institution: Oregon State University
   role: me
   degree_year:
@@ -100,6 +100,6 @@
   link: https://ieeexplore.ieee.org/author/37587297000
   photo:
 
-- name: John Kim
+- name: John (Jong Hyun) Kim
   institution: Oregon State University
   role: me (loop closes)

@@ -1,6 +1,6 @@
 {% comment %}
   Deeper genealogy as a delay line of buffer stages (vertical).
-  From the top: X1 (me) splits into the M.S. and Ph.D. branches, which merge at
+  From the top: X1 (me) splits into my MS and PhD advisors' branches, which merge at
   Paul R. Gray; a single chain then runs down to Friedrich Leibniz (1622).
 
   Data
@@ -39,7 +39,7 @@
 <section class="dl" id="delay-line" aria-labelledby="dl-heading">
   <h2 id="dl-heading" class="dl__heading">A delay line back to 1622</h2>
   <p class="dl__intro">
-    Two branches leave me (X1): my M.S. lineage and my Ph.D. lineage. They merge at
+    Two branches leave me (X1): one through my MS advisor, one through my PhD advisor. They merge at
     Paul R. Gray, stage X5 of the <a href="{{ '/genealogy/' | relative_url }}">ring oscillator</a>.
     Below him, one buffer stage per ancestor carries the signal back in time to
     Friedrich Leibniz in 1622. Scroll down to send the pulse back in time.
@@ -48,12 +48,12 @@
   {% comment %} Semantic version: visible without JS, screen-reader only otherwise. {% endcomment %}
   <div class="dl-list">
     <h3>From me to Paul R. Gray</h3>
-    <p>M.S. branch:</p>
+    <p>Through my MS advisor:</p>
     <ol>
       <li>{{ dl_me.name }}, {{ dl_me.institution }}</li>
       {% for p in dl_ms %}<li>{% if p.link %}<a href="{{ p.link }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}, {{ p.institution }}</li>{% endfor %}
     </ol>
-    <p>Ph.D. branch:</p>
+    <p>Through my PhD advisor:</p>
     <ol>
       <li>{{ dl_me.name }}, {{ dl_me.institution }}</li>
       {% for p in dl_phd %}<li>{% if p.link %}<a href="{{ p.link }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}, {{ p.institution }}</li>{% endfor %}

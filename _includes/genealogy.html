@@ -14,8 +14,8 @@
 <section class="geno" id="academic-genealogy" aria-labelledby="geno-heading" data-rev-date="{{ site.time | date: "%Y-%m-%d" }}">
   <h2 id="geno-heading" class="geno__heading" tabindex="-1">My lineage as a ring oscillator</h2>
   <p class="geno__intro">
-    My M.S. lineage goes up four generations to Paul R. Gray, and my Ph.D.
-    lineage comes back down from him to me. Each person is one CMOS inverter
+    Going up from my MS advisor, four generations reach Paul R. Gray; coming
+    back down from him, the line reaches my PhD advisor and me. Each person is one CMOS inverter
     stage. Scroll down to follow the signal.
   </p>
 
@@ -26,7 +26,7 @@
     <li class="geno-list__item">
       <strong>X{{ forloop.index }}: {% if p.link and p.link != "" %}<a href="{{ p.link }}" target="_blank" rel="noopener">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</strong>
       — {{ p.institution }}; {{ p.role }}{% if p.degree_year and p.degree_year != "" %}; {{ p.degree_year }}{% endif %}{% if p.phd_institution and p.phd_institution != "" %}; Ph.D., {{ p.phd_institution }}{% endif %}.
-      {% if p.direction == "up" %}Advisor of {{ geno_prev.name }}.{% elsif p.direction == "apex" %}Advisor of {{ geno_prev.name }}; both lineages meet here.{% if p.deeper %} <a href="{{ p.deeper | relative_url }}">Deeper genealogy: his lineage back to 1622</a>.{% endif %}{% elsif p.direction == "down" %}Student of {{ geno_prev.name }}.{% endif %}
+      {% if p.direction == "up" %}Advisor of {{ geno_prev.name }}.{% elsif p.direction == "apex" %}Advisor of {{ geno_prev.name }}; both lineages meet here.{% if p.deeper %} <a href="{{ p.deeper | relative_url }}">Explore deeper lineage</a>.{% endif %}{% elsif p.direction == "down" %}Student of {{ geno_prev.name }}.{% endif %}
     </li>
     {% endunless %}{% endfor %}
     <li class="geno-list__item">The output of X9 feeds back to X1, closing a loop of nine inverting stages, so the ring oscillates.</li>
@@ -51,7 +51,7 @@
         </button>
         <a class="geno-cta" href="#" hidden>
           <svg class="geno-cta__icon" viewBox="0 0 28 40" width="22" height="32" aria-hidden="true" focusable="false"><path d="M14 0v5M5 5h18L14 15zM14 15v5M5 20h18L14 30zM14 30v10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-          <span class="geno-cta__txt"><strong>Deeper genealogy</strong><small>Paul R. Gray's lineage back to 1622</small></span>
+          <span class="geno-cta__txt"><strong>Explore Deeper Lineage</strong></span>
           <span class="geno-cta__arrow" aria-hidden="true">→</span>
         </a>
       </div>
