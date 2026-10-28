@@ -77,8 +77,19 @@
 .dl-t--end { font-weight: 700; fill: var(--dl-accent); fill-opacity: 1; }
 .dl-t--ini { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
 
-.dl-pulse__glow { fill: var(--dl-accent); opacity: 0.55; }
-.dl-pulse__core { fill: var(--dl-accent); stroke: var(--dl-paper); stroke-width: 1; }
+/* signal flowing up the lit wires (dash offset grows -> dashes move to the path start = up) */
+.dl-flow path {
+  fill: none;
+  stroke: var(--dl-paper);
+  stroke-width: 2.4px;
+  stroke-dasharray: 3 11;
+  animation: dl-flow 0.9s linear infinite;
+}
+@keyframes dl-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: 14; }
+}
+.dl--static .dl-flow { display: none; }
 
 /* --------------------------------------------------------------------------
    Rows (real buttons over the drawing)

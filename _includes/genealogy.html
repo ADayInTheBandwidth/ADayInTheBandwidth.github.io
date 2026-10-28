@@ -61,4 +61,4 @@
   <script type="application/json" class="geno-data">{{ geno_json | strip }}</script>
 </section>
 
-<script src="{{ "/assets/js/genealogy.js" | relative_url }}" defer></script>
+<script src="{{ "/assets/js/genealogy.js" | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

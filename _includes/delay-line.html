@@ -1,7 +1,8 @@
 {% comment %}
   Deeper genealogy as a delay line of buffer stages (vertical).
-  From the top: X1 (me) splits into my MS and PhD advisors' branches, which merge at
+  From the top: X1 (me), fed by my MS and PhD advisors' branches, which both start at
   Paul R. Gray; a single chain then runs down to Friedrich Leibniz (1622).
+  Buffers point up: the signal flows from advisor (below) to student (above).
 
   Data
     _data/genealogy.yml        me + the two branches (same file as the ring oscillator)
@@ -34,15 +35,15 @@
   ]
 }{% endcapture %}
 
-<link rel="stylesheet" href="{{ '/assets/css/delay-line.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/delay-line.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <section class="dl" id="delay-line" aria-labelledby="dl-heading">
   <h2 id="dl-heading" class="dl__heading">A delay line back to 1622</h2>
   <p class="dl__intro">
-    Two branches leave me (X1): one through my MS advisor, one through my PhD advisor. They merge at
-    Paul R. Gray, stage X5 of the <a href="{{ '/genealogy/' | relative_url }}">ring oscillator</a>.
-    Below him, one buffer stage per ancestor carries the signal back in time to
-    Friedrich Leibniz in 1622. Scroll down to send the pulse back in time.
+    Two branches lead to me (X1): one through my MS advisor, one through my PhD advisor.
+    Both start at Paul R. Gray, stage X5 of the <a href="{{ '/genealogy/' | relative_url }}">ring oscillator</a>.
+    Below him, one buffer stage per ancestor goes back to Friedrich Leibniz in 1622.
+    Each buffer passes the signal up, from advisor to student. Scroll down to trace the line back in time.
   </p>
 
   {% comment %} Semantic version: visible without JS, screen-reader only otherwise. {% endcomment %}
@@ -96,4 +97,4 @@
   <script type="application/json" class="dl-data">{{ dl_json | strip }}</script>
 </section>
 
-<script src="{{ '/assets/js/delay-line.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/delay-line.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

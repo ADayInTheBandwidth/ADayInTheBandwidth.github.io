@@ -3,15 +3,18 @@
    Vanilla JS + SVG. Data is embedded by _includes/delay-line.html from
    _data/genealogy.yml (me + both branches) and _data/delay_line.json (chain).
 
-   Layout, top to bottom (the signal flows down, back in time):
-     X1 (me) ── splits ──> my MS advisor's branch (left) and PhD advisor's branch (right)
-                           both merge into D1 = Paul R. Gray
-     D1 → D2 → … → D18 (Friedrich Leibniz, 1622) → end of the recorded line
+   Layout, top to bottom (me first, the oldest ancestor last). Buffers point UP:
+   each stage's input is below and its output above, so the signal flows from
+   the ancestors up to me:
+     X1 (me) <── my MS advisor's branch (left) and PhD advisor's branch (right)
+                 both fed by D1 = Paul R. Gray
+     D1 <── D2 <── … <── D18 (Friedrich Leibniz, 1622) <── end of the recorded line
    A proportional year axis on the left (1969 at the top, 1622 at the bottom)
    maps each chain stage to its year.
 
-   Scrolling down moves the pulse front down: every stage above the front is lit.
-   Fully reversible. Reduced motion: everything lit, no pulse, no scope.
+   Scrolling down reveals (lights) the stages from the top; on lit wires the
+   signal visibly flows upward. Fully reversible. Reduced motion: everything
+   lit, no flow animation, no scope.
    ========================================================================== */
 (function () {
   'use strict';
@@ -56,7 +59,7 @@
   }
 
   /* ---------- geometry (rebuilt on resize) ---------- */
-  var G, stages = [], wiresBase, wiresLit, clipRect, pulses = [], curOpen = null;
+  var G, stages = [], wiresBase, wiresLit, wiresFlow, clipRect, curOpen = null;
 
   function geom() {
     var w = stageEl.clientWidth, narrow = w < 520;
@@ -108,7 +111,6 @@
     svg.textContent = '';
     rowsEl.textContent = '';
     stages = [];
-    pulses = [];
     closeCard(true);
     svg.setAttribute('viewBox', '0 0 ' + G.w + ' ' + G.H);
     svg.setAttribute('width', G.w);
@@ -130,6 +132,8 @@
     wiresBase = el('g', { 'class': 'dl-w' }, svg);
     var litG = el('g', { 'class': 'dl-lit', 'clip-path': 'url(#dl-litclip)' }, svg);
     wiresLit = litG;
+    // moving dashes on lit vertical wires: the signal flows up (input below, output above)
+    wiresFlow = el('g', { 'class': 'dl-flow', 'clip-path': 'url(#dl-litclip)' }, svg);
 
     // me -> split -> both branches
     wire('M' + G.SX + ' ' + (G.cyMe + G.TH / 2) + ' V' + G.split);
@@ -157,34 +161,32 @@
 
     // stages
     CHAIN.forEach(function (p, k) {
+      // relation only: who this person advised (the stage above)
+      var below = k === 0 ? [MS[MS.length - 1], PHD[PHD.length - 1]].filter(Boolean).map(function (x) { return x.name; }).join(' & ')
+                          : CHAIN[k - 1].name;
       addStage({ key: p.id, p: p, x: G.SX, cy: G.cyChain(k), kind: 'chain', idx: k,
-                 tag: p.id + (p.degreeYear ? ' · ' + p.degreeYear : ''), anchor: k === 0 ? 'dl-paul' : null });
+                 tag: below ? 'advisor of ' + below : '', anchor: k === 0 ? 'dl-paul' : null });
     });
     MS.forEach(function (p, j) {
-      addStage({ key: 'ms' + j, p: p, x: G.SA, cy: branchY(MS, j), kind: 'ms', tag: ownRole(p), rel: relOf(p) });
+      addStage({ key: 'ms' + j, p: p, x: G.SA, cy: branchY(MS, j), kind: 'ms',
+                 tag: j === 0 ? 'MS advisor' : 'advisor of ' + MS[j - 1].name });
     });
     PHD.forEach(function (p, j) {
-      addStage({ key: 'phd' + j, p: p, x: G.SB, cy: branchY(PHD, j), kind: 'phd', tag: ownRole(p), rel: relOf(p) });
+      addStage({ key: 'phd' + j, p: p, x: G.SB, cy: branchY(PHD, j), kind: 'phd',
+                 tag: j === 0 ? 'PhD advisor' : 'advisor of ' + PHD[j - 1].name });
     });
-    addStage({ key: 'me', p: ME, x: G.SX, cy: G.cyMe, kind: 'me', tag: 'X1 · me' });
+    addStage({ key: 'me', p: ME, x: G.SX, cy: G.cyMe, kind: 'me', tag: 'me' });
 
-    // pulses (two in the branch region)
-    for (var i = 0; i < 2; i++) {
-      var pg = el('g', { 'class': 'dl-pulse' }, svg);
-      el('circle', { r: 8, 'class': 'dl-pulse__glow', filter: 'url(#dl-glow)' }, pg);
-      el('circle', { r: 3.5, 'class': 'dl-pulse__core' }, pg);
-      pulses.push(pg);
-    }
     buildScope();
   }
 
-  // row tag: the person's own role only when it is "MS advisor" / "PhD advisor"
-  function ownRole(p) { return /^(advisor|student) of/i.test(p.role || '') ? '' : (p.role || ''); }
-  function relOf(p) { return /^(advisor|student) of/i.test(p.role || '') ? p.role.charAt(0).toUpperCase() + p.role.slice(1) : ''; }
 
+  // every vertical wire is drawn top -> bottom, so dashes moving toward the path
+  // start (CSS: increasing dash offset) read as the signal going up
   function wire(d) {
     el('path', { d: d }, wiresBase);
     el('path', { d: d }, wiresLit);
+    if (/ V/.test(d)) el('path', { d: d }, wiresFlow);
   }
   function dot(x, y) {
     el('circle', { cx: x, cy: y, r: 3, 'class': 'dl-jn' }, svg);
@@ -225,7 +227,7 @@
   function addStage(o) {
     var x = o.x, cy = o.cy, HW = G.HW, TH = G.TH, p = o.p;
     var top = cy - TH / 2, bot = cy + TH / 2;
-    var pts = (x - HW) + ',' + top + ' ' + (x + HW) + ',' + top + ' ' + x + ',' + bot;   // buffer pointing down
+    var pts = x + ',' + top + ' ' + (x + HW) + ',' + bot + ' ' + (x - HW) + ',' + bot;   // buffer pointing up: input below, output above
     var g = el('g', { 'class': 'dl-stg' }, svg);
     el('polygon', { points: pts, 'class': 'dl-tri' }, g);    // plain buffer symbol
     // lit outline (clipped by the pulse front)
@@ -297,7 +299,7 @@
     nm.id = 'dl-card-name';
     nm.tabIndex = -1;
     if (p.institution) h('div', 'dl-card__org', p.institution + (p.degreeYear ? ' · ' + p.degreeYear : ''), txt);
-    if (p.note || o.rel) h('p', 'dl-card__note', p.note || o.rel, txt);
+    if (p.note) h('p', 'dl-card__note', p.note, txt);
     var links = h('div', 'dl-card__links', null, txt);
     if (p.mgpUrl) link(links, 'Mathematics Genealogy Project ↗', p.mgpUrl);
     if (p.link) link(links, 'IEEE Xplore ↗', p.link);
@@ -375,12 +377,6 @@
     clipRect.setAttribute('y', 0);
     clipRect.setAttribute('height', Math.max(0, front));
 
-    // pulses: two in the branch region, one elsewhere
-    var inBranches = front > G.split && front < G.merge;
-    pulses[0].setAttribute('transform', 'translate(' + (inBranches ? G.SA : G.SX) + ' ' + front + ')');
-    pulses[1].setAttribute('transform', 'translate(' + G.SB + ' ' + front + ')');
-    pulses[0].style.opacity = reduce ? 0 : 1;
-    pulses[1].style.opacity = !reduce && inBranches ? 1 : 0;
 
     // stage states; newest lit = the lit stage nearest the front
     var newest = null, litChain = 0;

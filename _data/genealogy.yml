@@ -6,8 +6,9 @@
 #
 # Fields
 #   name, institution, role   shown on each card
-#   direction                 up = MS lineage ("advisor of"), apex = common
-#                             ancestor, down = PhD lineage ("student of")
+#   direction                 up = going up from my MS advisor ("advisor of"),
+#                             apex = common ancestor, down = coming down to my
+#                             PhD advisor ("student of")
 #   degree_year               optional, e.g. "Ph.D. 1969"
 #   phd_institution           optional, where they earned their Ph.D.
 #   link                      optional, e.g. IEEE Xplore author page. Clicking
